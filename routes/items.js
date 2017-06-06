@@ -9,6 +9,7 @@ var dataBase = require('../Dbutils');
 router.get('/', function(req, res, next) {
     res.send('respond with a resource items');
     console.log("test");
+    console.log("test");
 });
 
 /* GET all products . V */
