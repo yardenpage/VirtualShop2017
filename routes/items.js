@@ -22,7 +22,7 @@ router.get('/AllProducts', function(req, res, next) {
 /* GET top 5 items .  V */
 router.get('/Hot5Products',function (req,res) {
     console.log(req.query);
-    var query= "SELECT * FROM Items WHERE item_hot = '" + 1 + "'";
+    var query= "SELECT * FROM Items WHERE hot = '" + 1 + "'";
     dataBase.select(query,function (jObject) {
         res.send(jObject);
     });
@@ -74,7 +74,7 @@ router.get('/RecommendedProducts', function(req, res) {
 router.get('/SearchProductsByName', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
-    var query= "SELECT * FROM Items WHERE item_name = '" + searchBy + "'";
+    var query= "SELECT * FROM Items WHERE name = '" + searchBy + "'";
     dataBase.select(query,function (jObject) {
         res.send(jObject);
     });
@@ -84,7 +84,7 @@ router.get('/SearchProductsByName', function(req, res) {
 router.get('/SearchProductsByColor', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
-    var query= "SELECT * FROM Items WHERE item_color = '" + searchBy + "'";
+    var query= "SELECT * FROM Items WHERE color = '" + searchBy + "'";
     dataBase.select(query,function (jObject) {
         res.send(jObject);
     });
@@ -94,7 +94,7 @@ router.get('/SearchProductsByColor', function(req, res) {
 router.get('/SearchProductsBySize', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
-    var query= "SELECT * FROM Items WHERE item_size = '" + searchBy + "'";
+    var query= "SELECT * FROM Items WHERE size = '" + searchBy + "'";
     dataBase.select(query,function (jObject) {
         res.send(jObject);
     });
@@ -104,7 +104,7 @@ router.get('/SearchProductsBySize', function(req, res) {
 router.get('/IsProductAvailable', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
-    var query= "SELECT * FROM Items WHERE item_id = '" + id + "' AND item_quantity > '" + 0 + "'";
+    var query= "SELECT * FROM Items WHERE id = '" + id + "' AND item_quantity > '" + 0 + "'";
     dataBase.select(query,function (jObject) {
         res.send(jObject);
     });
@@ -114,7 +114,7 @@ router.get('/IsProductAvailable', function(req, res) {
 router.post('/DeleteProduct', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
-    var query ="DELETE FROM Items WHERE item_id = '" + id + "'";
+    var query ="DELETE FROM Items WHERE id = '" + id + "'";
     dataBase.insert(query);
     console.log("deleted succesfully");
 });
@@ -138,7 +138,7 @@ router.put('/UpdateStock', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var quantity = req.query.quantity;
-    var query= "UPDATE Items SET item_quantity = '" + quantity + "'" +"WHERE item_id = '" + id + "'";
+    var query= "UPDATE Items SET quantity = '" + quantity + "'" +"WHERE item_id = '" + id + "'";
     dataBase.insert(query);
     console.log("updated succesfully");
 });

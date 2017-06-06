@@ -11,11 +11,8 @@ router.get('/', function(req, res, next) {
 router.post('/Login',function (req,res) {
     var userName = req.query.userName;
     var password = req.query.password;
-    var query = "SELECT user_id FROM Users WHERE user_name = '" + userName  + "' AND password = '" + password + "'";
+    var query = "SELECT * FROM Users WHERE user_name = '" + userName  + "' AND password = '" + password + "'";
     db.select(query,function (result) {
-        console.log(result);
-        if (result.size>0)
-             user_id=result;
     });
 
 });
@@ -60,7 +57,7 @@ router.post('/ForgetPassword',function (req,res) {
 
 router.get('/ShowPastOrders',function (req,res) {
     user_id='1';
-    var query ="SELECT * FROM Orders WHERE user_id = '"+ user_id + "'";
+    var query ="SELECT * FROM Orders WHERE id = '"+ user_id + "'";
     db.select(query,function (answer) {
         console.log(answer);
     });
