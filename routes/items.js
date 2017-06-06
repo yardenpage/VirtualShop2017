@@ -8,6 +8,7 @@ var dataBase = require('../Dbutils');
 /* GET items listing. V */
 router.get('/', function(req, res, next) {
     res.send('respond with a resource items');
+    console.log("test");
 });
 
 /* GET all products . V */
@@ -109,6 +110,7 @@ router.post('/AddProduct', function(req, res) {
     dataBase.insert(query);
     console.log("added succesfully");
 });
+
 
 /* PUT - update the stock . V */
 router.put('/UpdateStock', function(req, res) {
