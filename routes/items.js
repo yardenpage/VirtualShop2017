@@ -14,8 +14,8 @@ router.get('/', function(req, res, next) {
 router.get('/AllProducts', function(req, res, next) {
     console.log(req.query);
     var query = "SELECT * FROM Items";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
@@ -23,8 +23,8 @@ router.get('/AllProducts', function(req, res, next) {
 router.get('/Hot5Products',function (req,res) {
     console.log(req.query);
     var query= "SELECT * FROM Items WHERE hot = '" + 1 + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 })
 
@@ -34,9 +34,9 @@ router.get('/NewProducts', function(req, res) {
     var month = TodayDate.getMonth()+1;
     var year = TodayDate.getFullYear();
     var query = "SELECT * FROM Items WHERE month = "+ month +" AND year = " + year;
-    dataBase.select(query,function (jObject)
+    dataBase.select(query,function (result)
     {
-        res.send(jObject);
+        res.send(result);
     });
 });
 
@@ -45,8 +45,8 @@ router.get('/ProductsByCategory', function(req, res) {
     console.log(req.query);
     var category = req.query.categoty;
     var query= "SELECT * FROM Items WHERE category = '" + category + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
@@ -55,8 +55,8 @@ router.get('/SortProducts', function(req, res) {
     console.log(req.query);
     var sorted = req.query.sorted;
     var query= "SELECT * FROM Items ORDER BY "+sorted+" ASC";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
@@ -65,8 +65,8 @@ router.get('/RecommendedProducts', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var query = "SELECT * FROM Items WHERE category IN ( SELECT category FROM Orders WHERE user_id = '" + id + "' ) ";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
@@ -75,8 +75,8 @@ router.get('/SearchProductsByName', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
     var query= "SELECT * FROM Items WHERE name = '" + searchBy + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
@@ -85,8 +85,8 @@ router.get('/SearchProductsByColor', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
     var query= "SELECT * FROM Items WHERE color = '" + searchBy + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
@@ -95,8 +95,8 @@ router.get('/SearchProductsBySize', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
     var query= "SELECT * FROM Items WHERE size = '" + searchBy + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
@@ -105,8 +105,8 @@ router.get('/IsProductAvailable', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var query= "SELECT * FROM Items WHERE id = '" + id + "' AND item_quantity > '" + 0 + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
