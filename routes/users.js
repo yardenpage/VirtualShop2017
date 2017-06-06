@@ -28,21 +28,12 @@ router.post('/Registration',function (req,res) {
     var country = req.query.country;
     var address = req.query.address;
     var gender = req.query.gender;
-    var birthDay = req.query.birthDay;
     var securityAnswer = req.query.securityAnswer;
-    var shirts = req.query.shirts;
-    var pants=req.query.pants;
-    var dresses=req.query.dresses;
-    var skirts=req.query.skirts;
-    var belts=req.query.belts;
-    var shorts=req.query.shorts;
-    var underwars=req.query.underwars;
-    var hats=req.query.hats;
-    var bathing_suites=req.query.bathing_suites;
-    var scrafts=req.query.scrafts;
 
-    var query ="INSERT INTO Users VALUES ('" + id + "', '"+ userName + "', '"+ password + "', '"+ firstName + "', '"+ lastName + "', '"+ email + "', '"+ phone + "', '"+ country + "', '"+ address + "', '"+ gender + "', '"+ birthDay + "', '"+ securityAnswer + "', '"+ shirts +"', '"+ pants +"', '"+ dresses +"', '"+ skirts +"', '"+ belts +"', '"+ shorts +"', '"+ underwars +"', '"+ hats + "', '"+ bathing_suites +"', '"+ scrafts + "')";
-    db.insert(query);
+    var query ="INSERT INTO Users VALUES ('" + id + "', '"+ userName + "', '"+ password + "', '"+ firstName + "', '"+ lastName + "', '"+ email + "', '"+ phone + "', '"+ country + "', '"+ address + "', '"+ gender + "', '" + securityAnswer + "')";
+    db.insert(query ,function (answer){
+        console.log('done!');
+    });
 });
 
 router.post('/ForgetPassword',function (req,res) {

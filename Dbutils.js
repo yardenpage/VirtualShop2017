@@ -13,7 +13,7 @@ var config = {
     options: {encrypt: true, database: 'yardendana_db'}
 }
 
-function insert(query) {
+function insert(query, callback) {
     connection = new Connection(config);
     connection.on('connect', function (err)
     {
@@ -23,6 +23,7 @@ function insert(query) {
                 console.log(err);
             }
         });
+        callback(req);
         connection.execSql(req);
     });
 }
@@ -57,7 +58,7 @@ function select(query,callback) {
         });
 
         req.on('requestCompleted', function(){
-            console.log('requestCompleted with' + req.rowCount + 'row(s)');
+            console.log('requestCompleted with ' + req.rowCount + ' row(s)');
             callback(res);
             console.log(res);
         });
