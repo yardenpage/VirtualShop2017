@@ -40,7 +40,7 @@ router.get('/NewProducts', function(req, res) {
     });
 });
 
-/* GET products by category . V */
+/* GET products by category . V  ?????????????????*/
 router.get('/ProductsByCategory', function(req, res) {
     console.log(req.query);
     var category = req.query.categoty;
@@ -64,7 +64,7 @@ router.get('/SortProducts', function(req, res) {
 router.get('/RecommendedProducts', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
-    var query = "SELECT * FROM Items WHERE category IN ( SELECT category FROM Orders WHERE user_id = '" + id + "' ) ";
+    var query = "SELECT * FROM Items WHERE category IN ( SELECT category FROM Orders WHERE userId = '" + id + "' ) ";
     dataBase.select(query,function (result) {
         res.send(result);
     });
@@ -80,7 +80,7 @@ router.get('/SearchProductsByName', function(req, res) {
     });
 });
 
-/* GET items by color . V */
+/* GET items by color . V  */
 router.get('/SearchProductsByColor', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
@@ -90,7 +90,7 @@ router.get('/SearchProductsByColor', function(req, res) {
     });
 });
 
-/* GET items by size . V */
+/* GET items by size . V  */
 router.get('/SearchProductsBySize', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
@@ -104,22 +104,22 @@ router.get('/SearchProductsBySize', function(req, res) {
 router.get('/IsProductAvailable', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
-    var query= "SELECT * FROM Items WHERE id = '" + id + "' AND item_quantity > '" + 0 + "'";
+    var query= "SELECT * FROM Items WHERE id = '" + id + "' AND quantity > '" + 0 + "'";
     dataBase.select(query,function (result) {
         res.send(result);
     });
 });
 
-/* POST - delete product . V */
+/* POST - delete product . V  */
 router.post('/DeleteProduct', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var query ="DELETE FROM Items WHERE id = '" + id + "'";
     dataBase.insert(query);
-    console.log("deleted succesfully");
+    console.log("successfully deleted");
 });
 
-/* POST - Add product to db . V */
+/* POST - Add product to db . V  */
 router.post('/AddProduct', function(req, res) {
     var itemId = req.query.itemId;
     var itemName=req.query.itemName;
@@ -128,19 +128,23 @@ router.post('/AddProduct', function(req, res) {
     var itemQuantity=req.query.itemQuantity;
     var itemPrice = req.query.itemPrice;
     var itemHot = req.query.itemHot;
-    var query ="INSERT INTO Items VALUES ('" + itemId + "', '"+ itemName + "', '"+ itemSize + "', '"+ itemColor + "', '"+ itemQuantity + "', '"+ itemPrice + "', '"+ itemHot + "')";
+    var category = req.query.category;
+    var day = req.query.day;
+    var month = req.query.month;
+    var year = req.query.year;
+    var query ="INSERT INTO Items VALUES ('" + itemId + "', '"+ itemName + "', '"+ itemSize + "', '"+ itemColor + "', '"+ itemQuantity + "', '"+ itemPrice + "', '"+ itemHot + "', '"+ category + "', '"+ day + "', '"+ month + "', '"+ year + "')";
     dataBase.insert(query);
-    console.log("added succesfully");
+    console.log("successfully added");
 });
 
-/* PUT - update the stock . V */
+/* PUT - update the stock . V  */
 router.put('/UpdateStock', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var quantity = req.query.quantity;
-    var query= "UPDATE Items SET quantity = '" + quantity + "'" +"WHERE item_id = '" + id + "'";
+    var query= "UPDATE Items SET quantity = '" + quantity + "'" +"WHERE id = '" + id + "'";
     dataBase.insert(query);
-    console.log("updated succesfully");
+    console.log("successfully updated");
 });
 
 module.exports = router;
