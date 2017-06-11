@@ -175,24 +175,27 @@ router.post('/AddUser',function (req,res) {
     var address = req.query.address;
     var country = req.query.country;
     var securityAnswer = req.query.securityAnswer;
-    var lastEntry = req.query.lastEntry;
+    var lastEntry = new Date().toISOString().slice(0, 19).replace('T', ' ');
     var shirts = req.query.shirts;
     var pants = req.query.pants;
     var dresses = req.query.dresses;
     var skirts = req.query.skirts;
     var underwears = req.query.underwears;
-    var query = "INSERT INTO Users VALUES ('" + userName + "', '" + password + "', '" + firstName + "', '" + lastName + "', '" + gender + "', '" + email + "', '" + phone + "', '" + birthDay + "', '" + address + "', '" + country + "', '" + securityAnswer + "', '" + lastEntry + "', '" + shirts + "', '" + pants + "', '" + dresses + "', '" + skirts + "', '" + underwears + "')";
-    db.insert(query, function (answer) {
-        db.insert(query, function (answer) {
-            console.log('done adding user!');
-            res.send(answer);
+
+    var query1 ="INSERT INTO Users VALUES ('" + userName + "', '"+ password + "', '"+ firstName + "', '"+ lastName + "', '"+ gender + "', '" + email + "', '"+ phone + "', '"+ birthDay + "', '" + address + "', '"+ country + "', '"+ securityAnswer+ "', '"+ lastEntry+ "')";
+    db.insert(query1 ,function (answer1){
+        var query2 ="INSERT INTO UserCategorys VALUES ('" + userName + "', '"+ shirts+ "', '"+ pants+ "', '"+ dresses+ "', '"+ skirts+ "', '"+ underwears + "')";
+        db.insert(query2, function (answer2) {
         });
+        console.log('done registration!');
+        res.send(answer1);
     });
+
 })
 
 /* delete user by manager. V */
 router.delete('/DeleteUser', function (req, res) {
-    console.log(req.query); 
+    console.log(req.query);
     var userName = req.query.userName;
     var query = "DELETE FROM Users WHERE userName = '" + userName + "'";
     db.insert(query, function (answer) {
