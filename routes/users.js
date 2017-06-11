@@ -156,6 +156,7 @@ router.get('/ListUsers',function (req,res) {
     var query = "SELECT * FROM Users";
     db.select(query,function (answer) {
         console.log(answer);
+        res.send(answer);
     });
 
 })
@@ -200,12 +201,11 @@ router.delete('/DeleteUser', function (req, res) {
     });
 });
 
-router.get('/LastEntry', function (req, res) {
+router.post('/LastEntry', function (req, res) {
     var userName = req.query.userName;
     var query = "SELECT lastEntry FROM Users WHERE userName = '" + userName + "'";
-    db.search(query, function (result) {
+    db.select(query, function (result) {
         res.send(result[0]);
-        console.log(result[0]);
     });
 });
 
