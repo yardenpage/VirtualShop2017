@@ -10,11 +10,6 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource items');
 });
 
-/* POST items listing. V */
-router.post('/', function(req, res, next) {
-    res.send('respond with a resource items');
-});
-
 /* GET all products . V */
 router.get('/AllProducts', function(req, res, next) {
     console.log(req.query);
@@ -66,10 +61,10 @@ router.get('/SortProducts', function(req, res) {
 });
 
 /* GET recommended products . V */
-router.post('/RecommendedProducts', function(req, res) {
+router.get('/RecommendedProducts', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
-    var query = "SELECT * FROM Items WHERE category IN ( SELECT category FROM Orders WHERE userId = '" + id + "' ) ";
+    var query = "SELECT * FROM Items WHERE category IN ( SELECT category FROM Orders WHERE user_id = '" + id + "' ) ";
     dataBase.select(query,function (result) {
         res.send(result);
     });
@@ -120,8 +115,10 @@ router.post('/DeleteProduct', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var query ="DELETE FROM Items WHERE id = '" + id + "'";
-    dataBase.insert(query);
-    console.log("successfully deleted");
+    dataBase.insert(query ,function (answer){
+        console.log('deleted succesfully!');
+        res.send(answer);
+    });
 });
 
 /* POST - Add product to db . V  */
@@ -138,8 +135,10 @@ router.post('/AddProduct', function(req, res) {
     var month = req.query.month;
     var year = req.query.year;
     var query ="INSERT INTO Items VALUES ('" + itemId + "', '"+ itemName + "', '"+ itemSize + "', '"+ itemColor + "', '"+ itemQuantity + "', '"+ itemPrice + "', '"+ itemHot + "', '"+ category + "', '"+ day + "', '"+ month + "', '"+ year + "')";
-    dataBase.insert(query);
-    console.log("successfully added");
+    dataBase.insert(query ,function (answer){
+        console.log('added succesfully!');
+        res.send(answer);
+    });
 });
 
 /* PUT - update the stock . V  */
@@ -148,8 +147,10 @@ router.put('/UpdateStock', function(req, res) {
     var id = req.query.id;
     var quantity = req.query.quantity;
     var query= "UPDATE Items SET quantity = '" + quantity + "'" +"WHERE id = '" + id + "'";
-    dataBase.insert(query);
-    console.log("successfully updated");
+    dataBase.insert(query ,function (answer){
+        console.log('updated succesfully!');
+        res.send(answer);
+    });
 });
 
 module.exports = router;

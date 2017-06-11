@@ -20,10 +20,13 @@ function insert(query, callback) {
         var req = new Request(query,function (err, rowCount) {
             if (err)
             {
-                console.log(err);
+                console.error('error connecting: '+ err.stack);
+                callback('false');
+            }
+            else{
+                callback('true');
             }
         });
-        callback(req);
         connection.execSql(req);
     });
 }
