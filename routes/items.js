@@ -14,89 +14,114 @@ router.get('/', function(req, res, next) {
 router.get('/AllProducts', function(req, res, next) {
     console.log(req.query);
     var query = "SELECT * FROM Items";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
 /* GET top 5 items .  V */
 router.get('/Hot5Products',function (req,res) {
     console.log(req.query);
-    var query= "SELECT * FROM Items WHERE item_hot = '" + 1 + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    var query= "SELECT * FROM Items WHERE hot = '" + 1 + "'";
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
-})
+});
 
-/* GET all the new products from the LAST MONTH. */
+/* GET all the new products from the LAST MONTH. V */
 router.get('/NewProducts', function(req, res) {
     var TodayDate = new Date();
     var month = TodayDate.getMonth()+1;
     var year = TodayDate.getFullYear();
-    var query = "SELECT * FROM Items WHERE month_dateAdded = "+ month +" AND year_dateAdded = " + year;
-    dataBase.select(query,function (jObject)
+    var query = "SELECT * FROM Items WHERE month = "+ month +" AND year = " + year;
+    dataBase.select(query,function (result)
     {
-        res.send(jObject);
+        res.send(result);
     });
-    //res.send('user requested new items');
-    // console.log(req.query);
 });
 
-/* GET products by category . */
-router.get('/ProductsByCategory', function(req, res) {
+/* POST products by category . V */
+router.post('/ProductsByCategory', function(req, res) {
     console.log(req.query);
     var category = req.query.categoty;
-    var query= "SELECT * FROM Items WHERE item_category = '" + category + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    var query= "SELECT * FROM Items WHERE category = '" + category + "'";
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
-/* GET products sorted by . V */
-router.get('/SortProducts', function(req, res) {
+/* POST products sorted by . V */
+router.post('/SortProducts', function(req, res) {
     console.log(req.query);
     var sorted = req.query.sorted;
     var query= "SELECT * FROM Items ORDER BY "+sorted+" ASC";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
-/* GET recommended products .  */
-router.get('/RecommendedProducts', function(req, res) {
-
-});
-
-///////////////????????????
-router.get('/SearchProductsByCategory', function(req, res) {
-    console.log(req.query);
-    var category = req.query.categoty;
-    var query= "SELECT * FROM Items WHERE item_category = '" + category + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
-    });
-});
-
-/* Get if product available . V */
-router.get('/IsProductAvailable', function(req, res) {
+/* POST recommended products . V */
+router.post('/RecommendedProducts', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
-    var query= "SELECT * FROM Items WHERE item_id = '" + id + "' AND item_quantity > '" + 0 + "'";
-    dataBase.select(query,function (jObject) {
-        res.send(jObject);
+    var query = "SELECT * FROM Items WHERE category IN ( SELECT category FROM Orders WHERE user_id = '" + id + "' ) ";
+    dataBase.select(query,function (result) {
+        res.send(result);
     });
 });
 
-/* POST - delete product . V */
+/* POST items by name . V */
+router.post('/SearchProductsByName', function(req, res) {
+    console.log(req.query);
+    var searchBy = req.query.searchBy;
+    var query= "SELECT * FROM Items WHERE name = '" + searchBy + "'";
+    dataBase.select(query,function (result) {
+        res.send(result);
+    });
+});
+
+/* POST items by color . V  */
+router.post('/SearchProductsByColor', function(req, res) {
+    console.log(req.query);
+    var searchBy = req.query.searchBy;
+    var query= "SELECT * FROM Items WHERE color = '" + searchBy + "'";
+    dataBase.select(query,function (result) {
+        res.send(result);
+    });
+});
+
+/* POST items by size . V  */
+router.post('/SearchProductsBySize', function(req, res) {
+    console.log(req.query);
+    var searchBy = req.query.searchBy;
+    var query= "SELECT * FROM Items WHERE size = '" + searchBy + "'";
+    dataBase.select(query,function (result) {
+        res.send(result);
+    });
+});
+
+/* POST if product available . V */
+router.post('/IsProductAvailable', function(req, res) {
+    console.log(req.query);
+    var id = req.query.id;
+    var query= "SELECT * FROM Items WHERE id = '" + id + "' AND quantity > '" + 0 + "'";
+    dataBase.select(query,function (result) {
+        res.send(result);
+    });
+});
+
+/* POST - delete product . V  */
 router.post('/DeleteProduct', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
-    var query ="DELETE FROM Items WHERE item_id = '" + id + "'";
-    dataBase.insert(query);
-    console.log("deleted succesfully");
+    var query ="DELETE FROM Items WHERE id = '" + id + "'";
+    dataBase.insert(query ,function (answer){
+        console.log('deleted succesfully!');
+        res.send(answer);
+    });
 });
 
-/* POST - Add product to db . V */
+/* POST - Add product to db . V  */
 router.post('/AddProduct', function(req, res) {
     var itemId = req.query.itemId;
     var itemName=req.query.itemName;
@@ -105,29 +130,26 @@ router.post('/AddProduct', function(req, res) {
     var itemQuantity=req.query.itemQuantity;
     var itemPrice = req.query.itemPrice;
     var itemHot = req.query.itemHot;
-    var query ="INSERT INTO Items VALUES ('" + itemId + "', '"+ itemName + "', '"+ itemSize + "', '"+ itemColor + "', '"+ itemQuantity + "', '"+ itemPrice + "', '"+ itemHot + "')";
-    dataBase.insert(query);
-    console.log("added succesfully");
+    var category = req.query.category;
+    var day = req.query.day;
+    var month = req.query.month;
+    var year = req.query.year;
+    var query ="INSERT INTO Items VALUES ('" + itemId + "', '"+ itemName + "', '"+ itemSize + "', '"+ itemColor + "', '"+ itemQuantity + "', '"+ itemPrice + "', '"+ itemHot + "', '"+ category + "', '"+ day + "', '"+ month + "', '"+ year + "')";
+    dataBase.insert(query ,function (answer){
+        console.log('added succesfully!');
+        res.send(answer);
+    });
 });
 
-/* PUT - update the stock . V */
+/* PUT - update the stock . V  */
 router.put('/UpdateStock', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var quantity = req.query.quantity;
-    var query= "UPDATE Items SET item_quantity = '" + quantity + "'" +"WHERE id = '" + id + "'";
-    dataBase.insert(query);
-    console.log("updated succesfully");
-});
-
-router.get('/RecommendedProducts',function (req,res) {
-    var query1= "SELECT category FROM Orders WHERE id = '" + user_id + "' " ;
-    dataBase.select(query1,function (result1) {
-        res.send(result1);
-        var query2 = "SELECT * FROM Items WHERE category IN '" + query1 + "' " ;
-        dataBase.select(query2,function (result2) {
-            res.send(result2);
-        });
+    var query= "UPDATE Items SET quantity = '" + quantity + "'" +"WHERE id = '" + id + "'";
+    dataBase.insert(query ,function (answer){
+        console.log('updated succesfully!');
+        res.send(answer);
     });
 });
 

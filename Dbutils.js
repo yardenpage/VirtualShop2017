@@ -13,14 +13,18 @@ var config = {
     options: {encrypt: true, database: 'yardendana_db'}
 }
 
-function insert(query) {
+function insert(query, callback) {
     connection = new Connection(config);
     connection.on('connect', function (err)
     {
         var req = new Request(query,function (err, rowCount) {
             if (err)
             {
-                console.log(err);
+                console.error('error connecting: '+ err.stack);
+                callback('fail');
+            }
+            else{
+                callback('success');
             }
         });
         connection.execSql(req);
@@ -57,7 +61,7 @@ function select(query,callback) {
         });
 
         req.on('requestCompleted', function(){
-            console.log('requestCompleted with' + req.rowCount + 'row(s)');
+            console.log('requestCompleted with ' + req.rowCount + ' row(s)');
             callback(res);
             console.log(res);
         });
