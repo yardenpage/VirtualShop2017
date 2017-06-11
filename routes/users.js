@@ -59,7 +59,7 @@ router.post('/Registration',function (req,res) {
             db.insert(query2, function (answer2) {
             });
         console.log('done registration!');
-        res.send(answer1); 
+        res.send(answer1);
     });
 
 });
@@ -192,7 +192,7 @@ router.post('/AddUser',function (req,res) {
 
 /* delete user by manager. V */
 router.delete('/DeleteUser', function (req, res) {
-    console.log(req.query);
+    console.log(req.query); 
     var userName = req.query.userName;
     var query = "DELETE FROM Users WHERE userName = '" + userName + "'";
     db.insert(query, function (answer) {
