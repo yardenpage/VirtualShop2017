@@ -40,8 +40,8 @@ router.get('/NewProducts', function(req, res) {
     });
 });
 
-/* GET products by category . V  ?????????????????*/
-router.get('/ProductsByCategory', function(req, res) {
+/* POST products by category . V */
+router.post('/ProductsByCategory', function(req, res) {
     console.log(req.query);
     var category = req.query.categoty;
     var query= "SELECT * FROM Items WHERE category = '" + category + "'";
@@ -50,8 +50,8 @@ router.get('/ProductsByCategory', function(req, res) {
     });
 });
 
-/* GET products sorted by . V */
-router.get('/SortProducts', function(req, res) {
+/* POST products sorted by . V */
+router.post('/SortProducts', function(req, res) {
     console.log(req.query);
     var sorted = req.query.sorted;
     var query= "SELECT * FROM Items ORDER BY "+sorted+" ASC";
@@ -60,8 +60,8 @@ router.get('/SortProducts', function(req, res) {
     });
 });
 
-/* GET recommended products . V */
-router.get('/RecommendedProducts', function(req, res) {
+/* POST recommended products . V */
+router.post('/RecommendedProducts', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var query = "SELECT * FROM Items WHERE category IN ( SELECT category FROM Orders WHERE user_id = '" + id + "' ) ";
@@ -70,8 +70,8 @@ router.get('/RecommendedProducts', function(req, res) {
     });
 });
 
-/* GET items by name . V */
-router.get('/SearchProductsByName', function(req, res) {
+/* POST items by name . V */
+router.post('/SearchProductsByName', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
     var query= "SELECT * FROM Items WHERE name = '" + searchBy + "'";
@@ -80,8 +80,8 @@ router.get('/SearchProductsByName', function(req, res) {
     });
 });
 
-/* GET items by color . V  */
-router.get('/SearchProductsByColor', function(req, res) {
+/* POST items by color . V  */
+router.post('/SearchProductsByColor', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
     var query= "SELECT * FROM Items WHERE color = '" + searchBy + "'";
@@ -90,8 +90,8 @@ router.get('/SearchProductsByColor', function(req, res) {
     });
 });
 
-/* GET items by size . V  */
-router.get('/SearchProductsBySize', function(req, res) {
+/* POST items by size . V  */
+router.post('/SearchProductsBySize', function(req, res) {
     console.log(req.query);
     var searchBy = req.query.searchBy;
     var query= "SELECT * FROM Items WHERE size = '" + searchBy + "'";
@@ -100,8 +100,8 @@ router.get('/SearchProductsBySize', function(req, res) {
     });
 });
 
-/* Get if product available . V */
-router.get('/IsProductAvailable', function(req, res) {
+/* POST if product available . V */
+router.post('/IsProductAvailable', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var query= "SELECT * FROM Items WHERE id = '" + id + "' AND quantity > '" + 0 + "'";

@@ -26,7 +26,7 @@ router.post('/Login',function (req,res) {
     });
 
     //update lastEntry
-    var query= "UPDATE Users SET lastEntry = '" + DateTime.Now + "'" +"WHERE userName = '" + userName + "'";
+    var query= "UPDATE Users SET lastEntry = '" + new Date().toISOString().slice(0, 19).replace('T', ' ') + "'" +"WHERE userName = '" + userName + "'";
     db.insert(query,function (answer) {
         console.log(answer);
     });
@@ -73,7 +73,6 @@ router.post('/ForgetPassword',function (req,res) {
     db.select(query,function (answer) {
         if(answer.length>0)
         {
-            console.log(answer);
             res.send(answer);
         }
         else{
@@ -103,19 +102,21 @@ router.post('/AddOrder',function (req,res) {
     var shipmentDate=  req.query.shipmentDate;
     var currency=  req.query.currency;
     var query = "SELECT * FROM Carts WHERE userName = '"+ userName + "'";
-    db.select(query,function (result) {
-    });
     var totalAmount=0;
-    for(var i=0; i<result.length; i++)
-        totalAmount=totalAmount+result[0].amount;
-    res.send(totalAmount);
-    console.log(totalAmount);
-    var query = "DELETE FROM Carts WHERE userName = = '"+ userName + "'";
-    db.insert(query,function (result) {
-    });
-    var query ="INSERT INTO Orders VALUES ('" + id + "', '"+ userName + "', '"+ orderDate + "', '"+ shipmentDate+ "', '"+  currency+ "', '"+ totalAmount+"')";
-    db.insert(query,function (answer) {
-        console.log(answer);
+    db.select(query,function (result1) {
+        for(var i=0; i<result1.length; i++)
+            totalAmount=totalAmount+result1[i].totalPrice;
+        console.log(totalAmount);
+        var query ="INSERT INTO Orders VALUES ('" + id + "', '"+ userName + "', '"+ orderDate + "', '"+ shipmentDate+ "', '"+  currency+ "', '"+ totalAmount+"')";
+        db.insert(query,function (answer) {
+            var query2 = "DELETE FROM Carts WHERE userName = '" + userName + "'";
+            db.insert(query2,function (result2) {
+                console.log(result2);
+                res.send(result2);
+            });
+            console.log(answer);
+
+        });
 
     });
 })
@@ -123,13 +124,20 @@ router.post('/AddOrder',function (req,res) {
 router.post('/AddToCart',function (req,res) {
     var userName = req.query.userName;
     var itemId = req.query.itemId;
-    var ammount = req.query.ammount;
-
-    var query ="INSERT INTO Carts VALUES ('" + userName + "', '"+ itemId + "', '"+ ammount + "')";
-    db.insert(query,function (answer) {
-        console.log(answer);
-        res.send(answer);
+    var amount = req.query.amount;
+    var totalPrice=0;
+    var query1 ="SELECT * FROM Items WHERE id = '" + itemId + "'";
+    db.select(query1,function (answer) {
+        totalPrice=answer[0].price*amount;
+        console.log(totalPrice);
+        var query2 ="INSERT INTO Carts VALUES ('" + userName + "', '"+ itemId + "', '"+ amount+ "', '"+ totalPrice + "')";
+        db.insert(query2,function (answer) {
+            console.log(answer);
+            res.send(answer);
+        });
     });
+
+
 })
 
 router.post('/RemoveFromCart',function (req,res) {
@@ -196,8 +204,8 @@ router.get('/LastEntry', function (req, res) {
     var userName = req.query.userName;
     var query = "SELECT lastEntry FROM Users WHERE userName = '" + userName + "'";
     db.search(query, function (result) {
-        res.send(result[0].lastEntry);
-        console.log(result[0].lastEntry);
+        res.send(result[0]);
+        console.log(result[0]);
     });
 });
 

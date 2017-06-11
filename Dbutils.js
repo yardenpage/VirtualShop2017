@@ -21,10 +21,10 @@ function insert(query, callback) {
             if (err)
             {
                 console.error('error connecting: '+ err.stack);
-                callback('false');
+                callback('fail');
             }
             else{
-                callback('true');
+                callback('success');
             }
         });
         connection.execSql(req);
