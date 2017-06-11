@@ -59,7 +59,7 @@ router.post('/Registration',function (req,res) {
             db.insert(query2, function (answer2) {
             });
         console.log('done registration!');
-        res.send(answer1);
+        res.send(answer1); 
     });
 
 });
