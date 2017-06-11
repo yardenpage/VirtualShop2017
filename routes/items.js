@@ -10,6 +10,11 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource items');
 });
 
+/* POST items listing. V */
+router.post('/', function(req, res, next) {
+    res.send('respond with a resource items');
+});
+
 /* GET all products . V */
 router.get('/AllProducts', function(req, res, next) {
     console.log(req.query);
@@ -61,7 +66,7 @@ router.get('/SortProducts', function(req, res) {
 });
 
 /* GET recommended products . V */
-router.get('/RecommendedProducts', function(req, res) {
+router.post('/RecommendedProducts', function(req, res) {
     console.log(req.query);
     var id = req.query.id;
     var query = "SELECT * FROM Items WHERE category IN ( SELECT category FROM Orders WHERE userId = '" + id + "' ) ";
