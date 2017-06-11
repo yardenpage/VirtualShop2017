@@ -26,7 +26,7 @@ router.get('/Hot5Products',function (req,res) {
     dataBase.select(query,function (result) {
         res.send(result);
     });
-})
+});
 
 /* GET all the new products from the LAST MONTH. V */
 router.get('/NewProducts', function(req, res) {

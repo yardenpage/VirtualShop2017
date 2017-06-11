@@ -81,7 +81,7 @@ router.post('/ForgetPassword',function (req,res) {
         }
 
     });
-})
+});
 
 /* GET past Orders of user. V */
 router.post('/ShowPastOrders',function (req,res) {
@@ -92,7 +92,7 @@ router.post('/ShowPastOrders',function (req,res) {
         res.send(answer);
     });
 
-})
+});
 
 /* Add a new order. V */
 router.post('/AddOrder',function (req,res) {
@@ -119,7 +119,7 @@ router.post('/AddOrder',function (req,res) {
         });
 
     });
-})
+});
 
 router.post('/AddToCart',function (req,res) {
     var userName = req.query.userName;
@@ -138,7 +138,7 @@ router.post('/AddToCart',function (req,res) {
     });
 
 
-})
+});
 
 router.post('/RemoveFromCart',function (req,res) {
     var userName = req.query.userName;
@@ -149,7 +149,7 @@ router.post('/RemoveFromCart',function (req,res) {
         console.log(answer);
         res.send(answer);
     });
-})
+});
 
 /* GET users listing. V */
 router.get('/ListUsers',function (req,res) {
@@ -159,7 +159,7 @@ router.get('/ListUsers',function (req,res) {
         res.send(answer);
     });
 
-})
+});
 
 //bonus part
 /* Add user by manager. V */
@@ -191,7 +191,7 @@ router.post('/AddUser',function (req,res) {
         res.send(answer1);
     });
 
-})
+});
 
 /* delete user by manager. V */
 router.delete('/DeleteUser', function (req, res) {
