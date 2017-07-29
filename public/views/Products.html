@@ -1,0 +1,74 @@
+<div class="login-container" ng-controller="ProductsController as ProductsCtrl" data-ng-init="ProductsCtrl.getRecommendedProducts()" align="center">
+    <table>
+        <tr >
+            <td width="500">
+    <div >
+        <h2> Recommended Products for you:</h2>
+
+        <table>
+            <thead>
+            <tr>
+                <th width="100">Name</th>
+                <th width="100">Category</th>
+            </tr>
+            </thead>
+            <tr ng-repeat= "product in ProductsCtrl.RecommendedProducts | orderBy: 'name' " witdh="100" height="20">
+                <td>{{product.name}}</td>
+                <td>{{product.category}}</td>
+                <td><img class=imgclothes src={{product.img}} /></td>
+            </tr>
+        </table>
+
+    </div>
+            </td>
+    <div>
+        <td>
+        <h1> Products:</h1>
+            <h5>Filter By Category:</h5>
+            <select name="category" id="category" required ng-model="ProductsCtrl.category"
+                    ng-required="true">
+                <option value="shirts">shirts</option>
+                <option value="dresses">dresses</option>
+                <option value="pants">pants</option>
+                <option value="skirts">skirts</option>
+                <option value="underwears">underwears</option>
+                <option value="all">all</option>
+            </select>
+            <button type="submit" ng-disabled="category.$invalid" ng-click="ProductsCtrl.getProductsByCategory()" >Submit</button>
+
+            <br><br>
+        <table>
+            <thead>
+            <tr>
+                <th width="50" ><a href="" ng-click="ProductsCtrl.fieldToOrderBy='id'; ProductsCtrl.reverseSort = !ProductsCtrl.reverseSort">Id</a></th>
+                <th width="100"><a href="" ng-click="ProductsCtrl.fieldToOrderBy='name'; ProductsCtrl.reverseSort = !ProductsCtrl.reverseSort">Name </a></th>
+                <th width="100"><a href="" ng-click="ProductsCtrl.fieldToOrderBy='category'; ProductsCtrl.reverseSort = !ProductsCtrl.reverseSort">Category </a></th>
+                <th width="100"><a href="" ng-click="ProductsCtrl.fieldToOrderBy='size'; ProductsCtrl.reverseSort = !ProductsCtrl.reverseSort">Size </a></th>
+                <th width="100"><a href="" ng-click="ProductsCtrl.fieldToOrderBy='color'; ProductsCtrl.reverseSort = !ProductsCtrl.reverseSort">Color </a></th>
+                <th width="100"><a href="" ng-click="ProductsCtrl.fieldToOrderBy='price'; ProductsCtrl.reverseSort = !ProductsCtrl.reverseSort">Price </a></th>
+                <th width="100">Image</th>
+
+            </tr>
+            </thead>
+            <tr ng-repeat="Categories in ProductsCtrl.ProductsByCategory | filter : ProductsCtrl.filterBy |
+			orderBy:ProductsCtrl.fieldToOrderBy:ProductsCtrl.reverseSort" witdh="140" height="30">
+                <td>{{Categories.id}}</td>
+                <td>{{Categories.name}}</td>
+                <td>{{Categories.category}}</td>
+                <td>{{Categories.size}}</td>
+                <td>{{Categories.color}}</td>
+                <td>{{Categories.price}}</td>
+                <td><img class=imgclothes src={{Categories.img}} /></td>
+                <td>   <button ng-click="ProductsCtrl.addToCart(Categories.id, Categories.name, Categories.category, Categories.size, Categories.color, Categories.price, Categories.img)">Add To Cart</button>  </td>
+            </tr>
+
+        </table>
+        <br>
+        <br>
+        <br>
+    </div>
+            </td>
+        </tr>
+    </table>
+
+</div>

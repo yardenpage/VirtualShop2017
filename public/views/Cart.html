@@ -1,0 +1,80 @@
+<div class="cartController-container" align="center" ng-controller="cartController as cartCtrl" ng-init="cartCtrl.getProductsByRec();">
+    <h4>The items at your cart:</h4>
+    <br>
+    Filter By Color:
+    <select name="color" id="color" required ng-model="cartCtrl.color"
+            ng-required="true">
+        <option value="red">red</option>
+        <option value="green">green</option>
+        <option value="yellow">yellow</option>
+        <option value="black">black</option>
+        <option value="orange">orange</option>
+        <option value="blue">blue</option>
+        <option value="brown">brown</option>
+        <option value="pink">pink</option>
+        <option value="purple">purple</option>
+        <option value="all">all</option>
+    </select>
+    Filter By Size:
+    <select name="size" id="size" required ng-model="cartCtrl.size"
+            ng-required="true">
+        <option value="s">s</option>
+        <option value="m">m</option>
+        <option value="l">l</option>
+        <option value="xl">xl</option>
+        <option value="xxl">xxl</option>
+        <option value="xxxl">xxxl</option>
+        <option value="all">all</option>
+    </select>
+    <button type="submit" ng-click="cartCtrl.getProductsByRec()" >Submit</button>
+    <br>
+    <br>
+    <table>
+        <thead>
+        <tr>
+            <th width="100"><a href="" ng-click="cartCtrl.fieldToOrderBy='name'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Name </a></th>
+            <th width="100"><a href="" ng-click="cartCtrl.fieldToOrderBy='size'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Size </a></th>
+            <th width="100"><a href="" ng-click="cartCtrl.fieldToOrderBy='color'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Color </a></th>
+            <th width="100"><a href="" ng-click="cartCtrl.fieldToOrderBy='price'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Price </a></th>
+            <th width="140"></th>
+            <th width="140"></th>
+        </tr>
+        </thead>
+        <tr ng-repeat="p in cartCtrl.ProductsByRec | filter : cartCtrl.filterBy |
+			orderBy:cartCtrl.fieldToOrderBy:cartCtrl.reverseSort" witdh="140" height="30">
+            <td>{{p.itemName}}</td>
+            <td>{{p.itemSize}}</td>
+            <td>{{p.itemColor}}</td>
+            <td>{{p.itemPrice}}</td>
+            <td>   <button ng-click="cartCtrl.openWindow(p.itemId, p.itemName, p.itemCategory, p.itemSize, p.itemColor, p.itemPrice, p.itemPicture)">Display Details</button>  </td>
+            <td>   <button ng-click="cartCtrl.removefromCart(p.itemId)">Remove From Cart</button>  </td>
+
+        </tr>
+    </table>
+    <p>Your Total Amount Is: {{ cartCtrl.sum }}</p>
+
+    <br>
+    <br>
+
+    <button ng-click="cartCtrl.buyCart();" >buy cart</button>
+    <br><br><br>
+    <button ng-click="cartCtrl.previousOrders();" > display previous orders</button>
+    <br>
+    <br>
+    <br>
+    <table>
+        <thead>
+        <tr ng-show="cartCtrl.isOrder">
+            <th width="100">Order Id </th>
+            <th width="100"> </th>
+        </tr>
+        </thead>
+        <tr ng-repeat="p in cartCtrl.PastOrders" witdh="140" height="30">
+            <td>{{p.id}}</td>
+            <td>   <button ng-click="cartCtrl.openOrderWindow(p.userName, p.id, p.orderDate, p.shipmentDate, p.currency, p.totalAmount)">Display Order Details</button>  </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <br>
+</div>

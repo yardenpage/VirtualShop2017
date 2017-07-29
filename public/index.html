@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Clothes Factory</title>
+    <script src="angularScripts/angular.js"></script>
+    <script src="app.js"></script>
+    <script type="text/javascript" src="angularScripts/angular-route.js"></script>
+    <script type="text/javascript" src="angularScripts/angular-local-storage.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+
+
+</head>
+<body>
+
+<br>
+<div ng-controller="mainController as mainCtrl" data-ng-init="mainCtrl.Login()" class="mainmenu" >
+    <header ng-show="mainCtrl.userService.isLoggedIn">Hello {{ mainCtrl.userService.userName }}  , Last Entry: {{ mainCtrl.userService.lastLogin }}</header>
+    <header ng-hide="mainCtrl.userService.isLoggedIn">Hello Guest</header>
+    <nav class="navbar navbar-default navbar-static-top" >
+        <div class="container-fluid" >
+
+    <div class="collapse navbar-collapse" id="myNavbar">
+
+        <ul class="nav navbar-nav navbar-center">
+            <li>
+        <a ng-href="#/" class="navbar-link">Home</a>
+            </li>
+
+        <li>
+
+            <a ng-show="mainCtrl.userService.isLoggedIn" ng-href="#/Products" class="navbar-link">Products</a>
+        </li>
+        <li>
+            <a ng-href="#/About" class="navbar-link">About</a>
+        </li>
+        </ul>
+            <ul class="nav navbar-nav navbar-right">
+               <li>
+              <a ng-show="mainCtrl.userService.isLoggedIn" ng-href="#/Cart" class="navbar-link"> <img src="img/cart.png" height="30" width="30" class="navbar-link"></a>
+               </li>
+            <li>
+                <a ng-hide="mainCtrl.userService.isLoggedIn" ng-href="#/login" class="navbar-link">  <img src="img/user.png" height="15" width="15" class="navbar-link">Login</a>
+            </li>
+                <li>
+                <a ng-hide="mainCtrl.userService.isLoggedIn" ng-href="#/register" class="navbar-link"> <img src="img/user.png" height="15" width="15" class="navbar-link"> Register</a>
+                </li>
+            <li>
+                <a ng-show="mainCtrl.userService.isLoggedIn" ng-href="#/Logout" class="navbar-link">  <img src="img/user.png" height="15" width="15" class="navbar-link">Logout</a>
+            </li>
+            </ul>
+
+    </div>
+
+</div>
+
+    </nav>
+    <div style="background: #ccf2ff" class="jumbotron" >
+        <div class="container text-center">
+            <img src="img/Clothes.png" width=200px height=150px />
+            <h1> Clothes Factory</h1>
+        </div>
+    </div>
+    <ng-view></ng-view>
+</div>
+</body>
+</html>

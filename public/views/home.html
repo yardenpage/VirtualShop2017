@@ -1,0 +1,52 @@
+<div class="login-container" ng-controller="mainController as mainCtrl" data-ng-init="mainCtrl.getNewItems()" >
+    <div align="center">
+    <h1>Welcome To Your Imaginary Shop!</h1> <br>
+        <table>
+            <tr>
+                <td width="500">
+    <div>
+        <div >
+            <h2> The 5 Hot Products:</h2> <br>
+            <table>
+                <thead>
+                <tr>
+                    <th width="100">Name</th>
+                    <th width="100">Category</th>
+                </tr>
+                </thead>
+                <tr ng-repeat= "product in mainCtrl.HotProducts | orderBy: 'name' " witdh="150" height="20">
+                    <td>{{product.name}}</td>
+                    <td>{{product.category}}</td>
+                    <td><img class=imgclothes src={{product.img}} /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+                </td>
+                <td width="500">
+    <div ng-show="mainCtrl.userService.isLoggedIn">
+        <div>
+            <h2> The New Products From Last month:</h2> <br>
+            <table>
+                <thead>
+                <tr>
+                    <th width="100">Name</th>
+                    <th width="100">Category</th>
+                </tr>
+                </thead>
+                <tr ng-repeat= "product in mainCtrl.NewProducts | orderBy: 'name' " witdh="30" height="20">
+                    <td>{{product.name}}</td>
+                    <td>{{product.category}}</td>
+                    <td><img class=imgclothes src={{product.img}} /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+                </td>
+            </tr>
+        </table>
+
+
+        <br><br><br><br>
+    </div>
+</div>
