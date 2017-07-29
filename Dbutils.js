@@ -18,13 +18,22 @@ function insert(query, callback) {
     connection.on('connect', function (err)
     {
         var req = new Request(query,function (err, rowCount) {
+
             if (err)
             {
+                console.log('3');
                 console.error('error connecting: '+ err.stack);
-                callback('fail');
+                var Obj = {
+                    rows: 0
+                };
+                callback(JSON.stringify(Obj));
             }
             else{
-                callback('success');
+                var Obj = {
+                    rows: 1
+                };
+                console.log('4');
+                callback(JSON.stringify(Obj));
             }
         });
         connection.execSql(req);
