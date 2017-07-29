@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{express-DefinitelyTyped, pubsub-js-DefinitelyTyped}" />
+    <file url="PROJECT" libraries="{angular-DefinitelyTyped, angular-bootstrap-calendar-DefinitelyTyped, angular-cookie-DefinitelyTyped, angular-cookies-DefinitelyTyped, angular-resource-DefinitelyTyped, angular-sanitize-DefinitelyTyped, jQuery-2.0.0}" />
     <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

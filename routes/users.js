@@ -1,4 +1,5 @@
 var express = require('express');
+var moment = require('moment');
 var router = express.Router();
 var db = require('../Dbutils');
 
@@ -42,7 +43,6 @@ router.post('/Registration',function (req,res) {
     var gender = req.query.gender;
     var email = req.query.email;
     var phone = req.query.phone;
-    var birthDay = req.query.birthDay;
     var address = req.query.address;
     var country = req.query.country;
     var securityAnswer = req.query.securityAnswer;
@@ -53,13 +53,93 @@ router.post('/Registration',function (req,res) {
     var skirts = req.query.skirts;
     var underwears = req.query.underwears;
 
-    var query1 ="INSERT INTO Users VALUES ('" + userName + "', '"+ password + "', '"+ firstName + "', '"+ lastName + "', '"+ gender + "', '" + email + "', '"+ phone + "', '"+ birthDay + "', '" + address + "', '"+ country + "', '"+ securityAnswer+ "', '"+ lastEntry+ "')";
+    var query1 ="INSERT INTO Users VALUES ('" + userName + "', '"+ password + "', '"+ firstName + "', '"+ lastName + "', '"+ gender + "', '" + email + "', '"+ phone + "', '" + address + "', '"+ country + "', '"+ securityAnswer+ "', '"+ lastEntry+ "')";
     db.insert(query1 ,function (answer1){
-            var query2 ="INSERT INTO UserCategorys VALUES ('" + userName + "', '"+ shirts+ "', '"+ pants+ "', '"+ dresses+ "', '"+ skirts+ "', '"+ underwears + "')";
-            db.insert(query2, function (answer2) {
+        let shirtsF=function(){
+            return new Promise(function(resolve, rej){
+                if(shirts=="true") {
+                    var query2 = "INSERT INTO UserCategories VALUES ('" + userName + "','"+ "shirts"+ "')";
+                    db.insert(query2, function (answer2) {
+                        resolve(true);
+                    });
+                }
+                else
+                {
+                    resolve(true);
+                }
             });
-        console.log('done registration!');
-        res.send(answer1);
+
+        };
+        let pantsF=function() {
+            return new Promise(function(resolve, rej) {
+                if (pants == "true") {
+                    var query3 = "INSERT INTO UserCategories VALUES ('" + userName + "','" + "pants" + "')";
+                    db.insert(query3, function (answer2) {
+                        resolve(true);
+                    });
+                }
+                else
+                {
+                    resolve(true);
+                }
+            });
+        };
+        let dressesF=function() {
+            return new Promise(function(resolve, rej) {
+            if (dresses == "true") {
+                var query4 = "INSERT INTO UserCategories VALUES ('" + userName + "','" + "dresses" + "')";
+                db.insert(query4, function (answer2) {
+                    resolve(true);
+                });
+            }
+            else{
+                resolve(true);
+            }
+
+            });
+        };
+        let skirtsF=function() {
+            return new Promise(function(resolve, rej) {
+            if (skirts == "true") {
+                var query4 = "INSERT INTO UserCategories VALUES ('" + userName + "','" + "skirts" + "')";
+                db.insert(query4, function (answer2) {
+                    resolve(true);
+                });
+            }
+            else
+            {
+                resolve(true);
+            }
+
+            });
+        };
+        let underwearsF=function() {
+            return new Promise(function(resolve, rej) {
+            if (underwears == "true") {
+                var query5 = "INSERT INTO UserCategories VALUES ('" + userName + "','" + "underwears" + "')";
+                db.insert(query5, function (answer2) {
+                    resolve(true);
+                });
+            }
+            else{
+                resolve(true);
+            }
+
+            });
+        };
+
+        shirtsF()
+            .then(function(result){
+                return pantsF;
+            }).then(function(result){
+                return dressesF;
+            }).then(function(result){
+                return skirtsF;
+            }).then(function(result){
+                return underwearsF;
+            }).then(function(){
+                res.send(answer1);
+            });
     });
 
 });
@@ -71,15 +151,7 @@ router.post('/ForgetPassword',function (req,res) {
 
     var query = "SELECT password FROM Users WHERE userName = '" + userName  + "' AND securityAnswer = '" + answer + "'";
     db.select(query,function (answer) {
-        if(answer.length>0)
-        {
-            res.send(answer);
-        }
-        else{
-            res.send("The combination of user name and answer is wrong");
-            console.log("The combination of user name and answer is wrong");
-        }
-
+            return res.send(answer);
     });
 });
 
@@ -105,7 +177,7 @@ router.post('/AddOrder',function (req,res) {
     var totalAmount=0;
     db.select(query,function (result1) {
         for(var i=0; i<result1.length; i++)
-            totalAmount=totalAmount+result1[i].totalPrice;
+            totalAmount=totalAmount+result1[i].itemPrice;
         console.log(totalAmount);
         var query ="INSERT INTO Orders VALUES ('" + id + "', '"+ userName + "', '"+ orderDate + "', '"+ shipmentDate+ "', '"+  currency+ "', '"+ totalAmount+"')";
         db.insert(query,function (answer) {
@@ -123,18 +195,28 @@ router.post('/AddOrder',function (req,res) {
 
 router.post('/AddToCart',function (req,res) {
     var userName = req.query.userName;
+    var itemName = req.query.itemName;
     var itemId = req.query.itemId;
-    var amount = req.query.amount;
-    var totalPrice=0;
-    var query1 ="SELECT * FROM Items WHERE id = '" + itemId + "'";
-    db.select(query1,function (answer) {
-        totalPrice=answer[0].price*amount;
-        console.log(totalPrice);
-        var query2 ="INSERT INTO Carts VALUES ('" + userName + "', '"+ itemId + "', '"+ amount+ "', '"+ totalPrice + "')";
-        db.insert(query2,function (answer) {
+    var itemColor = req.query.itemColor;
+    var itemSize = req.query.itemSize;
+    var itemCategory = req.query.itemCategory;
+    var itemPrice = req.query.itemPrice;
+    var itemPicture = req.query.itemPicture;
+        var query ="INSERT INTO Carts VALUES ('" + userName + "', '"+ itemId+ "', '"+itemName+ "', '"+ itemSize+ "', '"+itemColor+ "', '"+itemCategory+ "', '"+ itemPrice +"', '"+ itemPicture+"')";
+        db.insert(query,function (answer) {
             console.log(answer);
             res.send(answer);
         });
+
+
+});
+
+router.post('/DisplayCart',function (req,res) {
+    var userName = req.query.userName;
+    var query ="SELECT * FROM Carts WHERE userName = '" + userName + "'";
+    db.select(query,function (answer) {
+            console.log(answer);
+            res.send(answer);
     });
 
 
@@ -150,6 +232,7 @@ router.post('/RemoveFromCart',function (req,res) {
         res.send(answer);
     });
 });
+
 
 /* GET users listing. V */
 router.get('/ListUsers',function (req,res) {
@@ -171,7 +254,6 @@ router.post('/AddUser',function (req,res) {
     var gender = req.query.gender;
     var email = req.query.email;
     var phone = req.query.phone;
-    var birthDay = req.query.birthDay;
     var address = req.query.address;
     var country = req.query.country;
     var securityAnswer = req.query.securityAnswer;
@@ -182,14 +264,40 @@ router.post('/AddUser',function (req,res) {
     var skirts = req.query.skirts;
     var underwears = req.query.underwears;
 
-    var query1 ="INSERT INTO Users VALUES ('" + userName + "', '"+ password + "', '"+ firstName + "', '"+ lastName + "', '"+ gender + "', '" + email + "', '"+ phone + "', '"+ birthDay + "', '" + address + "', '"+ country + "', '"+ securityAnswer+ "', '"+ lastEntry+ "')";
+    var query1 ="INSERT INTO Users VALUES ('" + userName + "', '"+ password + "', '"+ firstName + "', '"+ lastName + "', '"+ gender + "', '" + email + "', '"+ phone + "', '" + address + "', '"+ country + "', '"+ securityAnswer+ "', '"+ lastEntry+ "')";
     db.insert(query1 ,function (answer1){
-        var query2 ="INSERT INTO UserCategorys VALUES ('" + userName + "', '"+ shirts+ "', '"+ pants+ "', '"+ dresses+ "', '"+ skirts+ "', '"+ underwears + "')";
-        db.insert(query2, function (answer2) {
-        });
-        console.log('done registration!');
-        res.send(answer1);
+        if(shirts) {
+            var query2 = "INSERT INTO UserCategories VALUES ('" + userName + "', shirts')";
+            db.insert(query2, function (answer2) {
+                res.send(answer2);
+            });
+        }
+        if(pants) {
+            var query3 = "INSERT INTO UserCategories VALUES ('" + userName + "', pants')";
+            db.insert(query3, function (answer2) {
+                res.send(answer2);
+            });
+        }
+        if(dresses) {
+            var query4 = "INSERT INTO UserCategories VALUES ('" + userName + "', dresses')";
+            db.insert(query4, function (answer2) {
+                res.send(answer2);
+            });
+        }
+        if(skirts) {
+            var query4 = "INSERT INTO UserCategories VALUES ('" + userName + "', skirts')";
+            db.insert(query4, function (answer2) {
+                res.send(answer2);
+            });
+        }
+        if(underwears) {
+            var query5 = "INSERT INTO UserCategories VALUES ('" + userName + "', underwears')";
+            db.insert(query5, function (answer2) {
+                res.send(answer2);
+            });
+        }
     });
+
 
 });
 
