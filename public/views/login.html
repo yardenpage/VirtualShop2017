@@ -1,0 +1,72 @@
+<div align="center">
+<h2>Login</h2>
+<div class="login-container" ng-controller="loginController as loginCtrl">
+    <div class="login-form">
+        <form name="loginForm" ng-submit="loginCtrl.login(loginForm.$valid)" novalidate>
+            <table width="700" border="0" cellspacing="0" cellpadding="0" height="122" id="tableL" >
+                <tr>
+            <div class="form-group">
+                <td>
+                <label>Username:</label>
+                </td>
+                <td>
+                <input type="text" style="width:200px";
+                       ng-model="loginCtrl.user.username"
+                       ng-required="true"
+                       class="form-control"
+                       name="usernameInput"
+                       placeholder="Enter Username">
+                <p ng-show="loginForm.usernameInput.$invalid && !loginForm.usernameInput.$pristine" class="help-block">username is required</p>
+                </td>
+            </div>
+                </tr>
+                <tr>
+            <div class="form-group">
+                <td>
+                <label>Password:</label>
+                </td>
+                <td>
+                <input type="password" style="width:200px";
+                       ng-model="loginCtrl.user.password"
+                       ng-required="true"
+                       class="form-control"
+                       name="passwordInput"
+                       placeholder="Enter Password"
+                       ng-minlength="3">
+                <p ng-show="loginForm.passwordInput.$error.minlength && !loginForm.passwordInput.$pristine" class="help-block">Password is too short</p>
+                </td>
+
+            </div>
+                </tr>
+
+<tr>
+    <td rowspan="2" align="center">
+    <div class="form-group">
+            <input type="submit"
+                   class="btn btn-success btn-lg"
+                   value="Login"
+                   ng-disabled="loginForm.$invalid">
+    </div>
+    </td>
+</tr>
+            </table>
+        </form>
+        <div>
+            {{loginCtrl.errorMessage}}
+        </div>
+    </div>
+    <div class="container" align="center">
+        <span class="psw"><br><h3>Forget Password</h3>
+            <form name="restorePasswordInput">
+            <p>Enter your user name: <br><input ng-model="loginCtrl.pas.username" pattern="[a-zA-Z]+" placeholder="Enter Username" minlength="3" maxlength="8" required/></p>
+                <p> What is the name of your elementary school?</p>
+                <p>Enter your security answer:<br> <input ng-model="loginCtrl.pas.answer" placeholder="Enter Security Answer" required/></p>
+            <button ng-click="loginCtrl.restorePassword()" ng-disabled="restorePasswordInput.userNameRestore.$invalid">Restore password</button>
+            </form>
+        </span>
+        <br><br>
+    </div>
+</div>
+</div>
+
+
