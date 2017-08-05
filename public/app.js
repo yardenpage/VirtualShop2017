@@ -416,7 +416,8 @@ app.controller('ProductsController', ['localStorageService','UserService','$scop
     }
 
     vm.getRecommendedProducts = function()
-    { getAllProducts().then
+    {
+        getAllProducts().then
         setTimeout (function() {
             var userInStorage = decodeURIComponent(document.cookie);
             if (userInStorage != "") {
