@@ -8,14 +8,14 @@ app.controller('mainController', ['localStorageService','UserService','$scope' ,
     let vm = this;
     vm.userService = UserService;
 
-    let getHotFive = function ($window)
+    let getHotFive = function ()
     {
         return new Promise(function (resolve, reject)
         {
             vm.url = "http://localhost:3000/items/Hot5Products";
             $http.get(vm.url).then(function (response) {
                 vm.HotProducts = response.data;
-                if (vm.HotProducts.length>0)
+               if (vm.HotProducts.length>0)
                 {
                     resolve (true);
                 }
@@ -27,18 +27,18 @@ app.controller('mainController', ['localStorageService','UserService','$scope' ,
         })
     }
 
-    vm.getNewItems = function ($window)
+    vm.getNewItems = function ()
     {
-        getHotFive().then(function(){})
-        setTimeout (function(){
-            vm.url = "http://localhost:3000/items/NewProducts";
-            $http.get(vm.url).then(function (response) {
-                vm.NewProducts = response.data;
-                console.log(vm.NewProducts);
-            }, function (errResponse) {
-                console.error('Error while fetching products');
-            });
-        },1500);
+        getHotFive().then
+            setTimeout(function () {
+                vm.url = "http://localhost:3000/items/NewProducts";
+                $http.get(vm.url).then(function (response) {
+                    vm.NewProducts = response.data;
+                    console.log(vm.NewProducts);
+                }, function (errResponse) {
+                    console.error('Error while fetching products');
+                });
+            }, 1500);
     }
 
     vm.Login=function()
@@ -168,6 +168,30 @@ app.controller('registerController', ['openPageService', '$location', '$window',
     function(openPageService, $location, $window, $http) {
         let self = this;
         self.user = {userName: '', password: '', firstName: '', lastName: '', gender: '', email: '', phone: '', address: '', country: '', securityAnswer: '', shirts: '', pants: '', dresses: '', skirts: '', underwears: ''};
+        self.loadXMLDoc= function() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    myFunction(this);
+                }
+            };
+            xmlhttp.open("GET", "countries.xml", true);
+            xmlhttp.send();
+        }
+
+        function myFunction(xml) {
+            var i;
+            var xmlDoc = xml.responseXML;
+            var temp = [];
+            var x = xmlDoc.getElementsByTagName("Country");
+            for (i = 0; i <x.length; i++) {
+                var json = { "ID" :x[i].getElementsByTagName("ID")[0].childNodes[0].nodeValue.toString(),
+                    "Name" :x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue.toString()}
+                temp.push(json);
+            }
+            self.Countries = temp;
+            self.user.country = self.Countries[4];
+        }
 
         self.register = function() {
             if(self.user.shirts=="")
@@ -392,7 +416,8 @@ app.controller('ProductsController', ['localStorageService','UserService','$scop
     }
 
     vm.getRecommendedProducts = function()
-    { getAllProducts().then
+    {
+        getAllProducts().then
         setTimeout (function() {
             var userInStorage = decodeURIComponent(document.cookie);
             if (userInStorage != "") {
