@@ -1,128 +1,112 @@
 <div align="center">
     <h2>Registration</h2>
-<div  class="login-container" ng-controller="registerController as registerCtrl"><br/> <br/>
-Fill Your Details:<br/> <br/>
-<form  method="post" id="register-form" name="registerForm" enctype="text/plain" >
-    <table width="500" border="0" cellspacing="5" cellpadding="0" height="122" id="tableR" >
-        <tr> <td width="150px">User Name:</td>
-            <td ><input id="username" name="username" maxlength="8" minlength="3" value="" size="30" type="text" tabindex="1" pattern="[a-zA-Z]+" title="Username must not be blank and contain only letters and numbers." ng-model="registerCtrl.user.userName"
-                        ng-required="true"
-                        class="form-control"
-                        name="usernameInput"
-                        placeholder="Enter Username">
-                <span ng-show="registerForm.userName.$error.pattern || registerForm.userName.$error.required||registerForm.userName.$error.minlength||registerForm.userName.$error.maxlength" >Username must be between 3-8 characters (letters only)</span></td>
-        </tr>
-        <tr><td>  Password: </td>
-            <td>  <input id="password" name="password" maxlength="10" value="" size="30" type="password" minlength="8" tabindex="1" pattern="[A-Za-z0-9]+" title="Password must contain at least 8 characters, including letters and numbers both." onchange="form.password.pattern = this.value;" ng-model="registerCtrl.user.password"
-                         ng-required="true"
-                         class="form-control"
-                         name="passwordInput"
-                         placeholder="Enter Password">
-                <span ng-show="registerForm.password.$error.pattern || registerForm.password.$error.required || registerForm.password.$error.minlength||registerForm.password.$error.maxlength">password is required. must be 5-10 numbers or letters</span>
-            </td>
-        </tr>
-        <tr>
-            <td>First Name:</td>
-            <td><input name="firstname" id="firstname" value="" size="30" type="text" tabindex="1" pattern="[a-zA-Z]+" title="First name must contain only letters." ng-model="registerCtrl.user.firstName"
-                       ng-required="true"
-                       class="form-control"
-                       name="firstnameInput"
-                       placeholder="Enter First Name">
-                <span ng-show="registerForm.firstName.$error.required">First Name is required</span>
-            </td>
-        </tr>
-        <tr> <td>Last Name:</td>
-            <td>  <input name="lastname" id="lastname" value="" size="30" type="text" tabindex="1" required pattern="[a-zA-Z]+" title="Last name contain only letters." ng-model="registerCtrl.user.lastName"
-                         ng-required="true"
-                         class="form-control"
-                         name="lastnameInput"
-                         placeholder="Enter Last name">
-                <span ng-show="registerForm.lastName.$error.required">Last Name is required</span>
-            </td>
-        </tr>
-        <tr>
-            <td>Gender:</td>
-            <td><input type="radio" value="female" name="gender" ng-required="true" class="form-control" name="genderInput" ng-model="registerCtrl.user.gender" />female
-           <input type="radio" name="gender" value="male" ng-required="true" class="form-control" name="genderInput" ng-model="registerCtrl.user.gender" />male</td>
-        </tr>
+    <div  class="login-container" ng-controller="registerController as registerCtrl" data-ng-init="registerCtrl.loadXMLDoc()"><br/> <br/>
+        Fill Your Details:<br/> <br/>
+        <form  method="post" id="register-form" name="registerForm" enctype="text/plain" >
+            <table width="500" border="0" cellspacing="5" cellpadding="0" height="122" id="tableR" >
+                <tr> <td width="150px">User Name:</td>
+                    <td ><input id="username" name="username" maxlength="8" minlength="3" value="" size="30" type="text" tabindex="1" pattern="[a-zA-Z]+" ng-model="registerCtrl.user.userName"
+                                ng-required="true"
+                                class="form-control"
+                                name="usernameInput"
+                                placeholder="Enter Username">
+                        <span ng-show="registerForm.userName.$error.pattern || registerForm.userName.$error.required||registerForm.userName.$error.minlength||registerForm.userName.$error.maxlength" >Username must contain 3-8 characters, including only letters</span>
+                    </td>
+                </tr>
+                <tr><td> Password:</td>
+                    <td><input id="password" name="password" maxlength="10" minlength="5" value="" size="30" type="password" tabindex="1" ng-pattern="[A-Za-z0-9]+" ng-model="registerCtrl.user.password"
+                               ng-required="true"
+                               class="form-control"
+                               name="passwordInput"
+                               placeholder="Enter Password">
+                        <span ng-show="registerForm.password.$error.pattern || registerForm.password.$error.minlength||registerForm.password.$error.maxlength" >Password must contain 5-10 characters, including letters and numbers both</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>First Name:</td>
+                    <td><input name="firstname" id="firstname" value="" size="30" type="text" tabindex="1" ng-pattern="[a-zA-Z]+" title="First name must contain only letters." ng-model="registerCtrl.user.firstName"
+                               ng-required="true"
+                               class="form-control"
+                               name="firstnameInput"
+                               placeholder="Enter First Name">
+                        <span ng-show="registerForm.firstName.$error.required">First Name is required</span>
+                    </td>
+                </tr>
+                <tr> <td>Last Name:</td>
+                    <td>  <input name="lastname" id="lastname" value="" size="30" type="text" tabindex="1" ng-pattern="[a-zA-Z]+" title="Last name contain only letters." ng-model="registerCtrl.user.lastName"
+                                 ng-required="true"
+                                 class="form-control"
+                                 name="lastnameInput"
+                                 placeholder="Enter Last name">
+                        <span ng-show="registerForm.lastName.$error.required">Last Name is required</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td><input type="radio" value="female" name="gender" ng-required="true" class="form-control" name="genderInput" ng-model="registerCtrl.user.gender" />female
+                        <input type="radio" name="gender" value="male" ng-required="true" class="form-control" name="genderInput" ng-model="registerCtrl.user.gender" />male</td>
+                </tr>
+                <tr>
+                    <td> Phone:</td>
+                    <td><input type="text" name="phone" id="phone" size="30" ng-pattern="[0-9]+" tabindex="10" ng-model="registerCtrl.user.phone" ng-required="true"
+                               class="form-control"
+                               name="phoneInput"
+                               placeholder="Enter Phone Number">
+                        <span ng-show="registerForm.phone.$error.pattern">Phone is required (only numbers)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td> Email:</td>
+                    <td><input name="mail" id="mail" size="30" type="email" tabindex="10" ng-model="registerCtrl.user.email"
+                               ng-required="true"
+                               class="form-control"
+                               name="emailInput"
+                               placeholder="Enter Email" />
+                        <span ng-show="registerForm.email.$error.required || registerForm.email.$error.email">Email is required</span>
+                    </td>
+                </tr>
 
+                <tr>
+                    <td> Address:</td>
+                    <td><input name="address" id="address" size="30" type="text" tabindex="10"required ng-model="registerCtrl.user.address"
+                               ng-required="true"
+                               class="form-control"
+                               name="addressInput"
+                               placeholder="Enter Address"></td>
 
-        <tr>
-            <td> Email:</td>
-            <td><input name="mail" id="mail" size="30" type="email" tabindex="10" required ng-model="registerCtrl.user.email"
-                       ng-required="true"
-                       class="form-control"
-                       name="emailInput"
-                       placeholder="Enter Email">
-                <span ng-show="registerForm.email.$error.required || registerForm.email.$error.email">email is required</span>
-            </td>
-        </tr>
-        <tr>
-            <td> Phone:</td>
-            <td><input name="phone" id="phone" size="30" pattern="[0-9]+" tabindex="10" ng-model="registerCtrl.user.phone"
-                       ng-required="true"
-                       class="form-control"
-                       name="phoneInput"
-                       placeholder="Enter Phone number">
-                <span ng-show="registerForm.phone.$error.required || registerForm.phone.$error.pattern">Phone is required (only numbers)</span>
-            </td>
-        </tr>
-        <tr>
-            <td> Address:</td>
-            <td><input name="address" id="address" size="30" type="text" tabindex="10"required ng-model="registerCtrl.user.address"
-                       ng-required="true"
-                       class="form-control"
-                       name="addressInput"
-                       placeholder="Enter Address"></td>
+                </tr>
+                <tr>
+                    <td>Country:</td>
+                    <td><select ng-model="registerCtrl.user.country" id="country" tabindex="10" name="country" ng-options="c.Name for c in registerCtrl.Countries" ng-required="true" class="form-control">
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Security Question: <br> What is the name of you elementary school?</td>
+                    <td><br><input name="securityanswer" id="securityanswer" size="30" type="text" tabindex="10" required ng-model="registerCtrl.user.securityAnswer"
+                                   ng-required="true"
+                                   class="form-control"
+                                   name="securityanswerInput"
+                                   placeholder="Enter Your Security Answer">
+                        <span ng-show="registerForm.securityAnswer.$error.required">Security Answer is required</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top"> Interested Categories:</td>
+                    <td>
+                        <input type="checkbox" name="category" id="shirtscategories" ng-model="registerCtrl.user.shirts" value="1" />Shirts<br>
+                        <input type="checkbox" name="category" id="pantscategories" ng-model="registerCtrl.user.pants" value="1" />Pants <br>
+                        <input type="checkbox" name="category" id="dressescategories" ng-model="registerCtrl.user.dresses" value="1" /> Dresses <br>
+                        <input type="checkbox" name="category" id="skirtscategories" ng-model="registerCtrl.user.skirts" value="1"/> Skirts <br>
+                        <input type="checkbox" name="category" id="underwearscategories" ng-model="registerCtrl.user.underwears" value="1" /> UnderWears <br>
 
-        </tr>
-        <tr>
-            <td> Country:</td>
-            <td><input list="countries" name="country" id="country" size="30" tabindex="10" required ng-model="registerCtrl.user.country"
-                       ng-required="true"
-                       class="form-control"></td>
-                <datalist id="countries">
-                    <option value="Australia"></option>
-                    <option value="Bolivia"></option>
-                    <option value="China"></option>
-                    <option value="Denemark"></option>
-                    <option value="Israel"></option>
-                    <option value="Latvia"></option>
-                    <option value="Monaco"></option>
-                    <option value="August"></option>
-                    <option value="Norway"></option>
-                    <option value="Panama"></option>
-                    <option value="Switzerland"></option>
-                    <option value="USA"></option>
-                </datalist>
-        </tr>
-        <tr>
-            <td>Security Question: <br> What is the name of you elementary school?</td>
-            <td><br><input name="securityanswer" id="securityanswer" size="30" type="text" tabindex="10" required ng-model="registerCtrl.user.securityAnswer"
-                       ng-required="true"
-                       class="form-control"
-                       name="securityanswerInput"
-                       placeholder="Enter Your Security Answer">
-                <span ng-show="registerForm.securityAnswer.$error.required">Security Answer is required</span>
-            </td>
-        </tr>
-        <tr>
-            <td valign="top"> Interested Categories:</td>
-        <td>
-            <input type="checkbox" name="category" id="shirtscategories" ng-model="registerCtrl.user.shirts" value="1" />Shirts<br>
-            <input type="checkbox" name="category" id="pantscategories" ng-model="registerCtrl.user.pants" value="1" />Pants <br>
-            <input type="checkbox" name="category" id="dressescategories" ng-model="registerCtrl.user.dresses" value="1" /> Dresses <br>
-            <input type="checkbox" name="category" id="skirtscategories" ng-model="registerCtrl.user.skirts" value="1"/> Skirts <br>
-            <input type="checkbox" name="category" id="underwearscategories" ng-model="registerCtrl.user.underwears" value="1" /> UnderWears <br>
+                    </td>
+                </tr>
 
-            </td>
-        </tr>
-
-    </table>
-    <br/>
-    <button type="submit" ng-disabled="registerForm.userName.$invalid ||registerForm.password.$invalid || registerForm.firstName.$invalid ||registerForm.email.$invalid || registerForm.country.$invalid ||registerForm.address.$invalid ||registerForm.phone.$invalid ||
+            </table>
+            <br/>
+            <button type="submit" ng-disabled="registerForm.userName.$invalid ||registerForm.password.$invalid || registerForm.firstName.$invalid ||registerForm.email.$invalid || registerForm.country.$invalid ||registerForm.address.$invalid ||registerForm.phone.$invalid ||
          registerForm.gender.$invalid ||registerForm.securityAnswer.$invalid" ng-click="registerCtrl.register()">Submit</button>
-</form>
-</div>
-<br><br>
+        </form>
+    </div>
+    <br><br>
 </div>
